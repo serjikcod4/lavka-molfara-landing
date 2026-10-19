@@ -6,6 +6,7 @@
 <title>Магній Гліцинат — Ритуал Мольфара | Лавка Мольфара</title>
 <meta name="description" content="Пройди 60-секундний Ритуал Мольфара: дізнайся свій тип напруги, отримай персональну схему прийому Магнію Гліцинату та відкрий скриню з подарунком. −40%, оплата при отриманні.">
 <meta name="theme-color" content="#120E08">
+<link rel="icon" type="image/webp" href="img/logo.webp">
 <meta property="og:title" content="Ритуал Мольфара — який у тебе тип напруги?">
 <meta property="og:description" content="6 питань, персональна карта і подарунок до курсу Магнію Гліцинату.">
 <meta property="og:image" content="img/hero.webp">
@@ -27,7 +28,7 @@
   --cream:#FFF6ED; --parch:#F7EEE5; --paper:#FFFCF6;
   --ink:#120E08; --bark:#2F1E18; --bark-2:#1C130D;
   --gold:#EFC76C; --gold-2:#F7DA97; --gold-deep:#B88A2E;
-  --ember:#D75D2B; --sale:#E0393E; --moss:#5E6B3A;
+  --ember:#D75D2B; --ember-ink:#B4451C; --sale:#D32F34; --moss:#5E6B3A;
   --text:#2A211B; --muted:#6E625A; --line:#E9DAC6; --line-dark:rgba(239,199,108,.22);
   --r-lg:28px; --r-md:18px; --r-sm:12px;
   --shadow:0 18px 40px -22px rgba(47,30,24,.45);
@@ -66,7 +67,7 @@ p{margin:0}
 @keyframes pulse{0%,100%{box-shadow:0 10px 30px -10px rgba(239,199,108,.7),0 0 0 0 rgba(239,199,108,.55)}50%{box-shadow:0 10px 30px -10px rgba(239,199,108,.7),0 0 0 12px rgba(239,199,108,0)}}
 
 /* ---------- topbar & header ---------- */
-.topbar{background:var(--ember);color:#fff;font:500 13.5px/1.35 var(--body);text-align:center;padding:9px var(--gutter)}
+.topbar{background:var(--ember-ink);color:#fff;font:500 13.5px/1.35 var(--body);text-align:center;padding:9px var(--gutter)}
 .topbar b{font-weight:700}
 .hdr{position:sticky;top:0;z-index:40;background:rgba(18,14,8,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(239,199,108,.12)}
 .hdr .wrap{display:flex;align-items:center;gap:12px;height:62px}
@@ -102,6 +103,7 @@ p{margin:0}
 .badge-sale{background:var(--sale);color:#fff;font:700 12.5px var(--display);padding:4px 8px;border-radius:8px}
 .hero-sub-m{font-size:15.5px;color:rgba(255,246,237,.82);text-align:center;max-width:34ch;margin:0 auto 4px}
 @media (max-width:899px){.hero-copy .hero-sub{display:none}}
+@media (min-width:600px) and (max-width:899px){.hero-media img{aspect-ratio:auto;height:min(72vh,720px);object-position:50% 45%}}
 @media (min-width:900px){
   .hero{display:grid;grid-template-columns:1.05fr .95fr;grid-template-rows:auto 1fr;min-height:min(800px,calc(100vh - 100px))}
   .hero-copy{grid-column:1;grid-row:1;position:relative;padding:64px 24px 0 max(28px, calc((100vw - 1140px)/2 + 28px))}
@@ -219,7 +221,7 @@ section{position:relative}
 .warn b{color:#FFB08D}
 .reco{margin-top:24px;border-radius:var(--r-lg);background:var(--cream);color:var(--text);padding:20px;display:grid;gap:14px;box-shadow:0 0 0 1px var(--gold),0 20px 50px -20px rgba(239,199,108,.6)}
 .reco-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.reco-top small{font-size:13.5px;color:var(--ember);font-weight:700}
+.reco-top small{font-size:13.5px;color:var(--ember-ink);font-weight:700}
 .reco-top h3{font:700 20px/1.15 var(--display);margin-top:4px}
 .reco-top p{font-size:14.5px;color:var(--muted);margin-top:4px}
 .reco-price{text-align:right;white-space:nowrap}
@@ -272,10 +274,10 @@ section{position:relative}
 .tiers{display:grid;gap:14px}
 .tier{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:6px 14px;align-items:center;text-align:left;width:100%;padding:18px 16px;border-radius:var(--r-md);background:var(--paper);border:1.5px solid var(--line);transition:all .2s}
 .tier:hover{border-color:#CFB48F}
-.tier[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--gold),var(--shadow);background:#fff}
+.tier[aria-checked="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--gold),var(--shadow);background:#fff}
 .tier-radio{width:24px;height:24px;border-radius:50%;border:2px solid #CDB89E;display:grid;place-items:center}
-.tier[aria-pressed="true"] .tier-radio{border-color:var(--ink)}
-.tier[aria-pressed="true"] .tier-radio::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--ink)}
+.tier[aria-checked="true"] .tier-radio{border-color:var(--ink)}
+.tier[aria-checked="true"] .tier-radio::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--ink)}
 .tier-name{font:700 18px/1.15 var(--display)}
 .tier-name small{display:block;font:500 13.5px var(--body);color:var(--muted);margin-top:4px}
 .tier-price{text-align:right}
@@ -283,7 +285,7 @@ section{position:relative}
 .tier-price b{font:700 21px var(--display);white-space:nowrap}
 .tier-perks{grid-column:2/-1;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .perk{font:500 13px var(--body);padding:5px 10px;border-radius:99px;background:#F3E6D3}
-.perk.win{background:var(--ember);color:#fff}
+.perk.win{background:var(--ember-ink);color:#fff}
 .perk.gift{background:var(--ink);color:var(--gold)}
 .tier-flag{position:absolute;top:-11px;right:16px;font:600 12px var(--display);padding:5px 10px;border-radius:99px;background:var(--gold);color:var(--ink)}
 .tier-flag.reco{background:var(--ink);color:var(--gold)}
@@ -304,7 +306,7 @@ section{position:relative}
 .guess{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:6px}
 .guess button{padding:16px 10px;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--paper);font:600 15px var(--display);transition:all .2s}
 .guess button.right{background:var(--ink);color:var(--gold);border-color:var(--ink)}
-.guess button.wrong{border-color:var(--ember);color:var(--ember)}
+.guess button.wrong{border-color:var(--ember);color:var(--ember-ink)}
 .guess-msg{margin-top:14px;min-height:24px;font-size:16px}
 .cmp{margin-top:22px;display:grid;gap:12px;opacity:.35;filter:blur(2px);transition:all .5s;pointer-events:none}
 .cmp.open{opacity:1;filter:none;pointer-events:auto}
@@ -315,6 +317,7 @@ section{position:relative}
 .dots i{width:12px;height:12px;border-radius:50%;background:#E3D3BD}
 .dots i.f{background:var(--ink)}
 .cmp-row .hlc .dots i.f{background:var(--ember)}
+@media (max-width:400px){.cmp-row{grid-template-columns:96px repeat(3,1fr);gap:6px;font-size:13.5px}.dots{gap:3px}.dots i{width:9px;height:9px}}
 @media (min-width:700px){.cmp-row{grid-template-columns:220px repeat(3,1fr);font-size:15.5px}.dots i{width:14px;height:14px}}
 
 /* ---------- timeline ---------- */
@@ -429,7 +432,7 @@ footer a{color:var(--gold)}
       <img src="img/logo.webp" alt="" width="46" height="46">
       <span>Лавка<br>Мольфара</span>
     </a>
-    <button class="power" id="powerBtn" type="button" aria-label="Сила Мольфара: твій прогрес на сторінці">
+    <button class="power" id="powerBtn" type="button" title="Сила Мольфара: твій прогрес на сторінці">
       <span class="power-ring" id="powerRing"><i>🔮</i></span>
       <span class="power-txt"><b id="powerVal">10%</b><small>Сила Мольфара</small></span>
     </button>
@@ -682,7 +685,7 @@ footer a{color:var(--gold)}
   </div>
 </footer>
 
-<div class="sticky" id="sticky" aria-hidden="true">
+<div class="sticky" id="sticky" aria-hidden="true" inert>
   <div class="wrap">
     <div class="st-info"><small id="stSmall">Знахар, 120 капсул</small><b id="stPrice">798 грн<s>1330</s></b></div>
     <a class="btn btn-gold" href="#order" id="stBtn" data-ev="sticky_order">Замовити</a>
@@ -1080,7 +1083,7 @@ function chooseGift(id, btn){
 function renderLevels(){
   const reco = S.result ? S.result.level : null;
   $('#tiers').innerHTML = CONFIG.levels.map((L,i) => `
-    <button type="button" class="tier" role="radio" aria-checked="${S.level===i}" aria-pressed="${S.level===i}" data-l="${i}">
+    <button type="button" class="tier" role="radio" aria-checked="${S.level===i}" data-l="${i}">
       ${i===2 ? '<span class="tier-flag">Максимальна вигода</span>' : (reco===i ? '<span class="tier-flag reco">Тобі радить Мольфар</span>' : '')}
       <span class="tier-radio"></span>
       <span class="tier-name">${L.name}<small>${L.caps} капсул, курс ${L.days} днів</small></span>
@@ -1170,7 +1173,7 @@ setInterval(() => {
 
 const sticky = $('#sticky');
 const vis = {hero:true, order:false, ritual:false};
-function syncSticky(){ const show = !vis.hero && !vis.order && !(vis.ritual && !S.result) && !S.ordered; sticky.classList.toggle('show', show); sticky.setAttribute('aria-hidden', !show); }
+function syncSticky(){ const show = !vis.hero && !vis.order && !(vis.ritual && !S.result) && !S.ordered; sticky.classList.toggle('show', show); sticky.setAttribute('aria-hidden', !show); sticky.inert = !show; }
 const watch = (el, key, th) => new IntersectionObserver(([e]) => { vis[key] = e.isIntersecting; if (key==='order' && e.isIntersecting && !S.ach.has('ov')) { S.ach.add('ov'); track('order_view'); } syncSticky(); }, {threshold:th}).observe(el);
 watch(document.querySelector('.hero'), 'hero', 0);
 watch(document.getElementById('order'), 'order', .2);
