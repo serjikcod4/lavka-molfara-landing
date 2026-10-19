@@ -5,9 +5,9 @@
 <title>Відео-креатив — Ритуал Мольфара</title>
 <style>
 @font-face{font-family:'Unbounded';font-weight:200 900;src:url(../fonts/unbounded-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0400-045F,U+0490-0491}
-@font-face{font-family:'Unbounded';font-weight:200 900;src:url(../fonts/unbounded-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:'Unbounded';font-weight:200 900;src:url(../fonts/unbounded-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2212}
 @font-face{font-family:'Ubuntu';font-weight:500;src:url(../fonts/ubuntu-cyrillic-500-normal.woff2) format('woff2');unicode-range:U+0400-045F,U+0490-0491}
-@font-face{font-family:'Ubuntu';font-weight:500;src:url(../fonts/ubuntu-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:'Ubuntu';font-weight:500;src:url(../fonts/ubuntu-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2212}
 :root{--cream:#FFF6ED;--ink:#120E08;--bark:#2F1E18;--gold:#EFC76C;--gold2:#F7DA97;--ember:#D75D2B;--sale:#E0393E}
 *{box-sizing:border-box;margin:0}
 body{background:#000}
@@ -56,7 +56,7 @@ body{background:#000}
 .tag span s{font:500 28px 'Ubuntu';color:rgba(255,246,237,.5);margin-right:8px}
 .tag small{display:inline-block;margin-top:10px;font:500 28px 'Ubuntu';padding:6px 16px;border-radius:99px;background:rgba(255,246,237,.12)}
 .tag.top small{background:var(--ember)}
-.sale{width:210px;height:210px;border-radius:50%;background:var(--sale);display:grid;place-items:center;text-align:center;font:800 62px/1 'Unbounded';box-shadow:0 20px 60px -10px rgba(224,57,62,.8)}
+.sale{width:220px;height:220px;border-radius:50%;background:var(--sale);display:flex;align-items:center;justify-content:center;text-align:center;font:800 50px/1 'Unbounded';letter-spacing:-.04em;box-shadow:0 20px 60px -10px rgba(224,57,62,.8)}
 .cta{left:64px;right:64px;text-align:center;background:linear-gradient(180deg,#F7D98C,var(--gold) 55%,#E2B44E);color:var(--ink);font:700 46px 'Unbounded';padding:40px 30px;border-radius:999px;box-shadow:0 20px 60px -10px rgba(239,199,108,.8)}
 .url{left:0;right:0;text-align:center;font:500 34px 'Ubuntu';color:rgba(255,246,237,.8)}
 canvas{position:absolute;inset:0;z-index:30;pointer-events:none}
@@ -68,9 +68,9 @@ canvas{position:absolute;inset:0;z-index:30;pointer-events:none}
   <div class="L scene" id="s1">
     <img class="bg" id="bg1" src="src/v-test.jpg" alt="">
     <div class="sh" style="background:linear-gradient(180deg,rgba(18,14,8,.9) 0%,rgba(18,14,8,.55) 28%,rgba(18,14,8,0) 42%,rgba(18,14,8,0) 70%,rgba(18,14,8,.9) 92%)"></div>
-    <div class="L h" id="h1a" style="top:250px">Голова не</div>
+    <div class="L h" id="h1a" style="top:250px">Коли голова не</div>
     <div class="L h" id="h1b" style="top:345px">вимикається</div>
-    <div class="L h" id="h1c" style="top:440px">навіть уночі?</div>
+    <div class="L h" id="h1c" style="top:440px">навіть уночі</div>
     <div class="L t" id="t1" style="top:1640px;text-align:center">Дізнайся свій тип напруги<br>за 60 секунд</div>
   </div>
 
@@ -89,9 +89,9 @@ canvas{position:absolute;inset:0;z-index:30;pointer-events:none}
     <div class="L tap" id="tap" style="left:760px;top:1050px"></div>
     <div class="L tarot" id="tarot"><div class="tin" id="tin">
       <div class="tf tb"><b>?</b></div>
-      <div class="tf tfr"><img src="../img/card-struna.webp" alt=""><div class="tname">Натягнута струна</div></div>
+      <div class="tf tfr"><img src="../img/card-varta.webp" alt=""><div class="tname">Нічний вартовий</div></div>
     </div></div>
-    <div class="L t" id="t2" style="top:1450px;text-align:center;font-size:44px">Твоя карта: <b style="color:var(--gold2)">Натягнута струна</b><br>Індекс напруги 72 / 100</div>
+    <div class="L t" id="t2" style="top:1450px;text-align:center;font-size:44px">Твоя карта: <b style="color:var(--gold2)">Нічний вартовий</b><br>і поради саме для тебе</div>
   </div>
 
   <!-- SCENE 3 -->
@@ -100,7 +100,7 @@ canvas{position:absolute;inset:0;z-index:30;pointer-events:none}
     <div class="sh" style="background:linear-gradient(180deg,rgba(18,14,8,.88) 0%,rgba(18,14,8,.4) 22%,rgba(18,14,8,0) 32%,rgba(18,14,8,0) 66%,rgba(18,14,8,.92) 86%)"></div>
     <div class="L h" id="h3" style="top:250px">Відкрий скриню<br>Мольфара</div>
     <div class="L chipL" id="seals" style="left:64px;top:1180px">
-      <div style="font:600 36px/1.25 'Unbounded';color:var(--gold2)">Торкнись 3 рази</div>
+      <div style="font:600 36px/1.25 'Unbounded';color:var(--gold2)">На сайті:<br>торкнись 3 рази</div>
       <div class="seals"><span class="seal" id="se0"></span><span class="seal" id="se1"></span><span class="seal" id="se2"></span></div>
     </div>
     <div class="L t" id="t3" style="top:1420px;font:700 52px/1.15 'Unbounded';color:var(--cream)">🎁 Подарунок до курсу<br><span style="color:var(--gold2)">на вибір із 4</span></div>
@@ -114,12 +114,13 @@ canvas{position:absolute;inset:0;z-index:30;pointer-events:none}
     <img class="bg" id="bg4" src="src/v-levels.jpg" alt="">
     <div class="sh" style="background:linear-gradient(180deg,rgba(18,14,8,.9) 0%,rgba(18,14,8,.45) 18%,rgba(18,14,8,0) 26%,rgba(18,14,8,0) 70%,rgba(18,14,8,.94) 84%)"></div>
     <div class="L h" id="h4" style="top:250px;font-size:84px">Обери свій<br>рівень</div>
-    <div class="L sale" id="sale" style="right:56px;top:220px">−40%</div>
-    <div class="L tag" id="tg1" style="left:470px;top:1290px"><i>1</i><div><b>Учень</b><span><s>665</s>399 грн</span></div></div>
-    <div class="L tag" id="tg2" style="left:40px;top:880px"><i>2</i><div><b>Знахар</b><span><s>1330</s>798 грн</span><small>+1 🎁</small></div></div>
-    <div class="L tag top" id="tg3" style="left:300px;top:560px"><i>3</i><div><b>Мольфар</b><span><s>1995</s>1197 грн</span><small>+2 🎁</small></div></div>
-    <div class="L cta" id="cta" style="top:1630px">Пройти тест за 60 секунд</div>
-    <div class="L url" id="url" style="top:1800px">Лавка Мольфара. Оплата при отриманні</div>
+    <div class="L sale" id="sale" style="right:56px;top:220px"><span>−40%</span></div>
+    <div class="L tag" id="tg1" style="left:470px;top:1290px"><i>1</i><div><b>Учень</b><span><s>665</s>399 грн</span><small>60 капсул</small></div></div>
+    <div class="L tag" id="tg2" style="left:40px;top:880px"><i>2</i><div><b>Знахар</b><span><s>1330</s>798 грн</span><small>120 капсул, +1 🎁</small></div></div>
+    <div class="L tag top" id="tg3" style="left:300px;top:560px"><i>3</i><div><b>Мольфар</b><span><s>1995</s>1197 грн</span><small>180 капсул, +2 🎁</small></div></div>
+    <div class="L cta" id="cta" style="top:1555px;line-height:1.15">Пройди тест<br>і обери подарунок</div>
+    <div class="L url" id="url" style="top:1770px">lavka-molfara.com.ua</div>
+    <div class="L url" id="disc" style="top:1830px;font-size:26px;color:rgba(255,246,237,.6)">Дієтична добавка. Не є лікарським засобом.</div>
   </div>
 
   <div class="L logo" id="logo"><img src="../img/logo.webp" alt="">Лавка<br>Мольфара</div>
@@ -127,7 +128,7 @@ canvas{position:absolute;inset:0;z-index:30;pointer-events:none}
 </div>
 
 <script>
-const DUR = 15.5;
+const DUR = 17;
 const RP = ['M8 3v18M8 7l8-4M8 12l8-4','M7 21V4l10 4v13','M8 3v18M8 7l7 5-7 5','M7 21V3l9 5-9 5 9 8','M16 3l-9 9 9 9','M12 3v18M5 9l7-6 7 6','M12 21V3M12 11L5 4M12 11l7-7'];
 document.getElementById('runes').innerHTML = RP.map(p => `<span class="rn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg></span>`).join('');
 const $ = id => document.getElementById(id);
@@ -178,7 +179,7 @@ function render(t){
   up('h4', t, 11.95, 99, 50);
   pop('tg1', t, 12.3, 99); pop('tg2', t, 12.6, 99); pop('tg3', t, 12.9, 99);
   pop('sale', t, 13.4, 99, .45, 'rotate(8deg)');
-  up('cta', t, 13.8, 99, 60); up('url', t, 14.1, 99, 30);
+  up('cta', t, 13.8, 99, 60); up('url', t, 14.1, 99, 30); up('disc', t, 14.3, 99, 20);
   $('cta').style.transform += ` scale(${1 + .03*Math.max(0,Math.sin((t-14.2)*5))})`;
   $('logo').style.opacity = 1;
   particles(t);
