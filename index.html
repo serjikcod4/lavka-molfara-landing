@@ -252,7 +252,7 @@ section{position:relative}
 .chest-copy h2{font-size:clamp(25px,5.4vw,42px)}
 .chest-copy > p{margin-top:12px;color:var(--muted)}
 .gifts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
-.gift{position:relative;text-align:left;border-radius:var(--r-md);background:var(--paper);border:1.5px solid var(--line);padding:0 0 12px;overflow:hidden;transition:all .2s}
+.gift{position:relative;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;text-align:left;border-radius:var(--r-md);background:var(--paper);border:1.5px solid var(--line);padding:0 0 12px;overflow:hidden;transition:all .2s}
 .gift img{width:100%;aspect-ratio:4/3;object-fit:cover}
 .gift b{display:block;font:600 15px var(--display);padding:10px 12px 0}
 .gift span{display:block;font-size:13.5px;color:var(--muted);padding:4px 12px 0;line-height:1.35}
@@ -260,7 +260,7 @@ section{position:relative}
 .gift[disabled] img{filter:grayscale(.85) brightness(.85)}
 .gift[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--gold)}
 .gift[aria-pressed="true"]::after{content:"Твій";position:absolute;top:10px;left:10px;background:var(--ink);color:var(--gold);font:600 12px var(--display);padding:5px 10px;border-radius:99px}
-@media (min-width:640px){.gifts{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:640px){.gifts{grid-template-columns:repeat(4,1fr)}.gift b{font-size:13px}.gift span{font-size:13px}}
 .reserve{margin-top:18px;display:none;align-items:center;gap:14px;background:var(--ink);color:var(--cream);border-radius:var(--r-md);padding:14px 16px}
 .reserve.show{display:flex}
 .reserve .clock{font:700 22px var(--display);color:var(--gold);font-variant-numeric:tabular-nums}
@@ -433,6 +433,19 @@ footer a{color:var(--gold)}
 .modal-body p{color:var(--muted);font-size:15.5px}
 .modal-x{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(18,14,8,.7);color:#fff;font-size:22px}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:65}
+.share-box{max-height:92vh;overflow:auto}
+.share-box .modal-body{grid-template-columns:minmax(0,1fr)}
+.modal-box .share-img{display:block;width:auto;max-width:100%;height:clamp(180px,34vh,300px);object-fit:contain;margin:0 auto;border-radius:16px;box-shadow:0 14px 34px -14px rgba(18,14,8,.6);background:var(--bark)}
+.share-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.share-grid a{display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:14px;color:#fff;font:600 14px var(--display);text-decoration:none}
+.share-grid a[data-ch="telegram"]{background:#1F8FD6}
+.share-grid a[data-ch="viber"]{background:#6B54E8}
+.share-grid a[data-ch="whatsapp"]{background:#128C4B}
+.share-grid a[data-ch="facebook"]{background:#1668D9}
+.share-row{display:flex;gap:8px}
+.share-row input{flex:1;min-width:0;height:48px;border-radius:12px;border:1.5px solid var(--line);background:#fff;padding:0 12px;font:500 14px var(--body);color:var(--text)}
+.share-row button{flex:none;height:48px;padding:0 16px;border-radius:12px;border:0;background:var(--ink);color:var(--gold);font:600 13.5px var(--display)}
+.friend{display:inline-flex;gap:8px;align-items:center;margin-bottom:10px;font:500 14px var(--body);color:var(--ink);background:var(--gold);padding:7px 14px;border-radius:999px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -721,6 +734,25 @@ footer a{color:var(--gold)}
     </div>
   </div>
 </div>
+<div class="modal" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareH">
+  <div class="modal-box share-box">
+    <button class="modal-x" type="button" id="shareX" aria-label="Закрити">×</button>
+    <div class="modal-body">
+      <h3 id="shareH">Поділися своєю картою</h3>
+      <p>Надішли друзям: нехай дізнаються, яка карта випаде їм.</p>
+      <img class="share-img" id="shareImg" alt="Твоя карта Мольфара">
+      <button class="btn btn-gold btn-wide" type="button" id="shareNative" hidden>Поділитися картою</button>
+      <div class="share-grid">
+        <a data-ch="telegram" href="#" target="_blank" rel="noopener">Telegram</a>
+        <a data-ch="viber" href="#" rel="noopener">Viber</a>
+        <a data-ch="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a data-ch="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
+      </div>
+      <div class="share-row"><label class="sr" for="shareUrl">Посилання</label><input id="shareUrl" readonly><button type="button" id="shareCopy">Скопіювати</button></div>
+      <a class="btn btn-line btn-wide" id="shareDl" href="#" download="karta-molfara.png">Завантажити картку</a>
+    </div>
+  </div>
+</div>
 <canvas id="fx"></canvas>
 
 <script>
@@ -728,6 +760,7 @@ footer a{color:var(--gold)}
 const CONFIG = {
   productName: 'Магній Гліцинат (хелат бісгліцинат) 500 мг',
   productUrl: 'https://lavka-molfara.com.ua/mahnii-hlitsynat-khelat-bishlitsynat-120-kapsul-1084',
+  shareUrl: 'https://serjikcod4.github.io/lavka-molfara-landing/', // публічна адреса лендингу для «Поділитися»
   telegramUrl: 'https://tg.pulse.is/Molfar_Support_Bot?start=65db64094fb7e98e7707fa71',
   webhookUrl: '',            // URL вебхука CRM / SendPulse / n8n; порожньо = демо-режим
   telegramDiscount: 5,       // % знижки при замовленні в Telegram (як на сайті)
@@ -1062,12 +1095,82 @@ function finishQuiz(){
   unlockChest();
   go('ritual');
 }
-async function shareResult(){
-  const R = S.result; const text = `Моя карта Мольфара: «${R.name}». А яка твоя?`;
-  track('share');
-  try{ if (navigator.share) { await navigator.share({title:'Ритуал Мольфара', text, url:location.href.split('#')[0]}); return; } }catch(e){ return; }
-  try{ await navigator.clipboard.writeText(text+' '+location.href.split('#')[0]); achieve('copied'+Date.now(),'🔗','Посилання скопійовано','Надішли другу, нехай дізнається свою карту.'); }catch(e){}
+/* ----- «Поділитися картою»: картка-картинка + месенджери + копіювання (працює і там, де немає системного меню) ----- */
+const SHARE = {blob:null, url:'', text:''};
+function shareLink(channel){
+  const u = new URL(CONFIG.shareUrl);
+  u.searchParams.set('card', S.result.key);           // друг побачить «Твій друг отримав карту …»
+  u.searchParams.set('utm_source', channel); u.searchParams.set('utm_medium', 'share'); u.searchParams.set('utm_campaign', 'quiz_card');
+  return u.toString();
 }
+function loadImg(src){ return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
+function rr(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+async function buildShareCard(){
+  const R = S.result, W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const ctx = c.getContext('2d');
+  try{ await Promise.all(['700 40px Unbounded','600 30px Unbounded','500 30px Ubuntu'].map(f => document.fonts.load(f))); }catch(e){}
+  const g = ctx.createRadialGradient(W/2, 380, 60, W/2, 600, 900); g.addColorStop(0,'#3B271E'); g.addColorStop(.5,'#2F1E18'); g.addColorStop(1,'#1C130D');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle = 'rgba(239,199,108,.10)'; for (let y=30; y<H; y+=56) for (let x=30; x<W; x+=56) { ctx.beginPath(); ctx.arc(x,y,2,0,7); ctx.fill(); }
+  try{ const logo = await loadImg('img/logo.webp'); ctx.drawImage(logo, 64, 52, 84, 84); }catch(e){}
+  ctx.fillStyle = '#FFF6ED'; ctx.font = '600 26px Unbounded'; ctx.textBaseline = 'middle'; ctx.fillText('Лавка', 162, 80); ctx.fillText('Мольфара', 162, 112);
+  ctx.textAlign = 'center'; ctx.fillStyle = '#F7DA97'; ctx.font = '500 34px Ubuntu'; ctx.fillText('Моя карта Мольфара', W/2, 205);
+  const cx = 240, cy = 250, cw = 600, ch = 900;
+  ctx.save(); ctx.shadowColor = 'rgba(239,199,108,.45)'; ctx.shadowBlur = 70; rr(ctx, cx, cy, cw, ch, 30); ctx.fillStyle = '#2F1E18'; ctx.fill(); ctx.restore();
+  try{ const card = await loadImg(R.img); ctx.save(); rr(ctx, cx, cy, cw, ch, 30); ctx.clip(); ctx.drawImage(card, cx, cy, cw, ch); ctx.restore(); }catch(e){}
+  ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(239,199,108,.6)'; rr(ctx, cx, cy, cw, ch, 30); ctx.stroke();
+  ctx.fillStyle = '#F7DA97'; ctx.font = '700 34px Unbounded'; ctx.shadowColor = 'rgba(0,0,0,.8)'; ctx.shadowBlur = 10;
+  ctx.fillText(R.name, W/2, cy + ch*0.87); ctx.shadowBlur = 0;
+  ctx.fillStyle = '#FFF6ED'; ctx.font = '700 38px Unbounded'; ctx.fillText('А яка твоя?', W/2, 1222);
+  ctx.fillStyle = 'rgba(255,246,237,.75)'; ctx.font = '500 28px Ubuntu'; ctx.fillText('Пройди Ритуал Мольфара за 60 секунд', W/2, 1278);
+  return new Promise(res => c.toBlob(res, 'image/png'));
+}
+async function copyText(t){
+  try{ await navigator.clipboard.writeText(t); return true; }catch(e){}
+  try{ const ta = document.createElement('textarea'); ta.value = t; ta.setAttribute('readonly',''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); if (ok) return true; }catch(e){}
+  return false;
+}
+let shareLastFocus = null;
+async function shareResult(){
+  const R = S.result; if (!R) return;
+  SHARE.text = `Моя карта Мольфара: «${R.name}». А яка твоя?`;
+  SHARE.url = shareLink('copy');
+  $('#shareUrl').value = SHARE.url;
+  const enc = encodeURIComponent;
+  const links = {
+    telegram: `https://t.me/share/url?url=${enc(shareLink('telegram'))}&text=${enc(SHARE.text)}`,
+    viber: `viber://forward?text=${enc(SHARE.text + ' ' + shareLink('viber'))}`,
+    whatsapp: `https://wa.me/?text=${enc(SHARE.text + ' ' + shareLink('whatsapp'))}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${enc(shareLink('facebook'))}`
+  };
+  document.querySelectorAll('#shareModal .share-grid a').forEach(a => { a.href = links[a.dataset.ch]; });
+  shareLastFocus = document.activeElement;
+  $('#shareModal').classList.add('show'); setTimeout(() => $('#shareX').focus(), 50);
+  track('share_open');
+  if (!SHARE.blob || SHARE.key !== R.key) {
+    SHARE.key = R.key; SHARE.blob = await buildShareCard();
+    if (SHARE.blob) { const u = URL.createObjectURL(SHARE.blob); $('#shareImg').src = u; $('#shareDl').href = u; $('#shareDl').download = `karta-molfara-${R.key}.png`; }
+  }
+  // системне меню «Поділитися» (телефони): надсилаємо саму картинку, якщо пристрій це вміє
+  const file = SHARE.blob ? new File([SHARE.blob], 'karta-molfara.png', {type:'image/png'}) : null;
+  const canFiles = file && navigator.canShare && navigator.canShare({files:[file]});
+  $('#shareNative').hidden = !(navigator.share);
+  $('#shareNative').onclick = async () => {
+    const data = canFiles ? {files:[file], text:SHARE.text + ' ' + shareLink('native')} : {title:'Ритуал Мольфара', text:SHARE.text, url:shareLink('native')};
+    try{ await navigator.share(data); track('share', {channel:'native'}); }catch(e){ /* скасування: вікно лишається відкритим з іншими способами */ }
+  };
+}
+function closeShare(){ if (!$('#shareModal').classList.contains('show')) return; $('#shareModal').classList.remove('show'); if (shareLastFocus && shareLastFocus.focus) shareLastFocus.focus(); }
+$('#shareX').onclick = closeShare;
+$('#shareModal').addEventListener('click', e => { if (e.target.id === 'shareModal') closeShare(); });
+document.querySelectorAll('#shareModal .share-grid a').forEach(a => a.addEventListener('click', () => track('share', {channel:a.dataset.ch})));
+$('#shareDl').addEventListener('click', e => { if (!SHARE.blob) { e.preventDefault(); return; } track('share', {channel:'download'}); });
+$('#shareCopy').addEventListener('click', async () => {
+  const ok = await copyText(SHARE.text + ' ' + SHARE.url);
+  if (ok) { $('#shareCopy').textContent = 'Скопійовано ✓'; setTimeout(() => $('#shareCopy').textContent = 'Скопіювати', 2000); track('share', {channel:'copy'}); }
+  else { const i = $('#shareUrl'); i.focus(); i.select(); $('#shareCopy').textContent = 'Натисни Ctrl+C'; }
+});
 
 /* ===================== CHEST ===================== */
 const chestUnlocked = () => !!(S.result || S.entryChest);
@@ -1338,7 +1441,7 @@ function closeExit(){ if (!$('#exitModal').classList.contains('show')) return; $
 $('#exitX').onclick = closeExit;
 $('#exitModal').addEventListener('click', e => { if (e.target.id === 'exitModal') closeExit(); });
 $('#exitCta').addEventListener('click', e => { const href = $('#exitCta').getAttribute('href'); closeExit(); track('exit_intent_click'); e.preventDefault(); go(href.slice(1)); if (href === '#ritual') setTimeout(startQuiz,350); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeExit(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeExit(); closeShare(); } });
 if (!store.get('exit')) {
   document.addEventListener('mouseout', e => { if (!e.relatedTarget && e.clientY <= 0 && scrollY > 400) exitIntent(); });
   let lastY = scrollY, lastT = Date.now();
@@ -1350,6 +1453,12 @@ if (!store.get('exit')) {
 
 /* ===================== INIT ===================== */
 renderGifts(); renderLevels(); addPower(0);
+const FRIEND_CARD = new URLSearchParams(location.search).get('card');
+if (ARCH[FRIEND_CARD]) {
+  const k = document.querySelector('.hero-kicker'); k.className = 'friend'; k.textContent = `👥 Твій друг отримав карту «${ARCH[FRIEND_CARD].name}». А яка твоя?`;
+  const ip = document.querySelector('#quizIntro .intro-text > p'); if (ip) ip.insertAdjacentHTML('beforebegin', `<p class="friend" style="margin-top:14px">👥 У друга випала карта «${ARCH[FRIEND_CARD].name}»</p>`);
+  track('friend_visit', {card:FRIEND_CARD});
+}
 if (ENTRY === 'chest') { S.entryChest = true; unlockChest(); setTimeout(() => go('chest'), 400); }
 else if (ENTRY === 'quiz') setTimeout(() => { go('ritual'); setTimeout(startQuiz, 350); }, 400);
 else if (ENTRY === 'levels') setTimeout(() => go('levels'), 400);
