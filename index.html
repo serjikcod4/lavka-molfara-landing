@@ -329,7 +329,17 @@ section{position:relative}
 .time{display:grid;gap:22px}
 @media (min-width:900px){.time{grid-template-columns:1fr 1fr;align-items:center;gap:56px}}
 .moon{width:120px;height:120px;margin:0 auto}
-.slider{width:100%;margin-top:18px;accent-color:var(--gold);height:30px}
+.slider{--pct:14px;-webkit-appearance:none;appearance:none;display:block;width:100%;height:48px;margin:12px 0 0;padding:0;background:transparent;cursor:grab;touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+.slider.drag{cursor:grabbing}
+.slider:focus{outline:none}
+.slider::-webkit-slider-runnable-track{height:10px;border-radius:99px;background:linear-gradient(90deg,var(--gold) 0,var(--gold) var(--pct),rgba(255,246,237,.16) var(--pct))}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:30px;height:30px;margin-top:-10px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFF1C9,var(--gold) 58%,#C9962F);border:3px solid var(--bark);box-shadow:0 0 0 2px var(--gold),0 0 20px rgba(239,199,108,.75)}
+.slider::-moz-range-track{height:10px;border-radius:99px;background:rgba(255,246,237,.16)}
+.slider::-moz-range-progress{height:10px;border-radius:99px;background:var(--gold)}
+.slider::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFF1C9,var(--gold) 58%,#C9962F);border:3px solid var(--bark);box-shadow:0 0 0 2px var(--gold),0 0 20px rgba(239,199,108,.75)}
+.slider:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--gold),0 0 0 6px rgba(255,246,237,.55)}
+.slider.hint::-webkit-slider-thumb{animation:thumbPulse 1.6s ease-in-out infinite}
+@keyframes thumbPulse{0%,100%{box-shadow:0 0 0 2px var(--gold),0 0 0 0 rgba(239,199,108,.6)}50%{box-shadow:0 0 0 2px var(--gold),0 0 0 14px rgba(239,199,108,0)}}
 .slider-labels{position:relative;height:20px;font-size:13px;color:rgba(255,246,237,.6)}
 .slider-labels span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
 .slider-labels span:first-child{transform:none}
@@ -633,8 +643,8 @@ footer a{color:var(--gold)}
         <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(239,199,108,.4)"/>
       </svg>
       <label class="sr" for="days">День курсу</label>
-      <input class="slider" id="days" type="range" min="1" max="30" value="1">
-      <div class="slider-labels"><span style="left:0">День 1</span><span style="left:20.7%">7</span><span style="left:44.8%">14</span><span style="left:100%">День 30</span></div>
+      <input class="slider hint" id="days" type="range" min="1" max="30" value="1" aria-valuetext="День 1">
+      <div class="slider-labels"><span style="left:0">День 1</span><span style="left:calc(15px + (100% - 30px) * .207)">7</span><span style="left:calc(15px + (100% - 30px) * .448)">14</span><span style="left:100%">День 30</span></div>
     </div>
     <div class="time-card" aria-live="polite">
       <h3 id="tTitle"></h3>
@@ -1292,8 +1302,21 @@ function renderTime(d){
   $('#tTitle').textContent = 'День ' + d + ': ' + t.title;
   $('#tList').innerHTML = t.items.map(i => `<li>${i}</li>`).join('');
   $('#moonShadow').setAttribute('cx', 60 + (d-1)/29*104);
+  const sl = $('#days'); sl.style.setProperty('--pct', `calc(15px + (100% - 30px) * ${(d-1)/29})`); sl.setAttribute('aria-valuetext', 'День ' + d);
 }
-$('#days').addEventListener('input', e => { renderTime(+e.target.value); if (!S.timeMoved) { S.timeMoved = true; addPower(3); track('timeline_move'); } if (+e.target.value === 30) achieve('d30','🌕','Повний місяць','30 днів: рекомендований курс, саме стільки триває баночка на 120 капсул.'); });
+// власне перетягування: працює однаково в усіх браузерах (миша, тачпад, палець), навіть якщо курсор вийшов за межі повзунка
+(function dragSlider(){
+  const sl = $('#days'); let active = null;
+  const setFromX = x => { const r = sl.getBoundingClientRect(); const f = Math.min(1, Math.max(0, (x - r.left - 15) / (r.width - 30)));
+    const v = Math.round(1 + f * 29); if (+sl.value !== v) { sl.value = v; sl.dispatchEvent(new Event('input', {bubbles:true})); } };
+  sl.addEventListener('pointerdown', e => { if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (e.pointerType !== 'touch') e.preventDefault();
+    active = e.pointerId; try{ sl.setPointerCapture(e.pointerId); }catch(err){} sl.classList.add('drag'); sl.classList.remove('hint'); sl.focus({preventScroll:true}); setFromX(e.clientX); });
+  sl.addEventListener('pointermove', e => { if (active === e.pointerId) setFromX(e.clientX); });
+  const end = e => { if (active !== e.pointerId) return; active = null; sl.classList.remove('drag'); try{ sl.releasePointerCapture(e.pointerId); }catch(err){} };
+  sl.addEventListener('pointerup', end); sl.addEventListener('pointercancel', end); sl.addEventListener('lostpointercapture', () => { active = null; sl.classList.remove('drag'); });
+})();
+$('#days').addEventListener('input', e => { $('#days').classList.remove('hint'); renderTime(+e.target.value); if (!S.timeMoved) { S.timeMoved = true; addPower(3); track('timeline_move'); } if (+e.target.value === 30) achieve('d30','🌕','Повний місяць','30 днів: рекомендований курс, саме стільки триває баночка на 120 капсул.'); });
 renderTime(1);
 
 /* ===================== SUMMARY / STICKY / ORDER ===================== */
